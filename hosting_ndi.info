@@ -1,0 +1,6 @@
+name = NDI CiviCRM extensions
+description = controls to enable CiviCRM extensions on provisioned sites.
+package = Hosting
+dependencies[] = hosting_site
+
+core = 6.x

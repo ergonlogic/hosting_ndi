@@ -1,0 +1,48 @@
+<?php
+
+/**
+ * Implementation of hook_schema().
+ */
+function hosting_ndi_schema() {
+  $schema['hosting_ndi'] = array(
+    'fields' => array(
+      'vid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'nid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'ndi' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+    ),
+    'indexes' => array(
+      'vid' => array('vid'),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function hosting_ndi_install() {
+  // Create tables.
+  drupal_install_schema('hosting_ndi');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function hosting_ndi_uninstall() {
+  // Remove tables.
+  drupal_uninstall_schema('hosting_ndi');
+}

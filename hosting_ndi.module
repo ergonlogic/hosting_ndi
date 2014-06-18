@@ -1,0 +1,86 @@
+<?php
+
+
+/**
+ * Implementation of hook_form_alter()
+ */
+function hosting_ndi_form_alter(&$form, $form_state, $form_id) {
+  if ($form_id == 'site_node_form') {
+
+    $form['ndi'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('NDI CiviCRM'),
+      '#description' => t('Enable CiviCRM extensions when proivisioning a site.'),
+    );
+
+    $form['ndi']['ndi'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Extension to enable'),
+      '#default_value' => $form['#node']->ndi ? $form['#node']->ndi : '',
+      '#weight' => 0,
+    );
+    return $form;
+  }
+}
+
+/**
+ * Implementation of hook_insert()
+ */
+function hosting_ndi_insert($node) {
+  if (!empty($node->ndi)) {
+    db_query("INSERT INTO {hosting_ndi} (vid, nid, ndi) VALUES (%d, %d, '%s')", $node->vid, $node->nid, $node->ndi);
+  }
+}
+
+/**
+ * Implementation of hook_update()
+ */
+function hosting_ndi_update($node) {
+  if (FALSE === db_fetch_array(db_query("SELECT ndi FROM {hosting_ndi} WHERE vid = %d", $node->vid))) {
+    hosting_ndi_insert($node);
+  }
+  else {
+    db_query("UPDATE {hosting_ndi} SET ndi = '%s' WHERE vid = %d", $node->ndi, $node->vid);
+  }
+
+}
+
+/**
+ * Implementation of hook_delete()
+ */
+function hosting_ndi_delete($node) {
+  db_query("DELETE FROM {hosting_ndi} WHERE nid=%d", $node->nid);
+}
+
+/**
+ * Implementation of hook_delete_revision()
+ */
+function hosting_ndi_delete_revision($node) {
+  db_query("DELETE FROM {hosting_ndi} WHERE vid=%d", $node->vid);
+}
+
+/**
+ * Implementation of hook_nodeapi()
+ */
+function hosting_ndi_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+  if ($node->type == 'site') {
+    switch ($op) {
+    case 'insert':
+        hosting_ndi_insert($node);
+        break;
+      case 'update':
+        hosting_ndi_update($node);
+        break;
+      case 'delete' :
+        hosting_ndi_delete($node);
+        break;
+      case 'delete revision':
+        hosting_ndi_delete_revision($node);
+        break;
+      case 'load':
+        $additions = db_fetch_array(db_query("SELECT ndi FROM {hosting_ndi} WHERE vid = %d", $node->vid));
+        return $additions;
+        break;
+    }
+  }
+}
