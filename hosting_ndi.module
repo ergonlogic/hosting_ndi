@@ -2,6 +2,69 @@
 
 
 /**
+ * Implementation of hook_menu().
+ */
+function hosting_ndi_menu() {
+  $items = array();
+  $items['admin/hosting/ndi_civicrm'] = array(
+    'title' => 'NDI CiviCRM Extensions',
+    'description' => 'Configure the CiviCRM extensions to make available to enable during site provisioning.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('hosting_ndi_settings'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'access arguments' => array('administer NDI CiviCRM extensions'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function hosting_ndi_perm() {
+  return array('administer NDI CiviCRM extensions');
+}
+
+/**
+ * NDI CiviCRM settings form.
+ */
+function hosting_ndi_settings() {
+
+  $form['settings'] = array(
+    '#type' => 'item',
+    '#title' => t('NDI CiviCRM settings'),
+    '#value' => t('Here you may set various configurations for NDI CiviCRM extensions.'),
+    '#weight' => 0,
+  );
+
+  $form['hosting_ndi_extensions'] = array(
+    '#type' => 'textarea',
+    '#title' => t('NDI CiviCRM extensions'),
+    '#description' => t('List the NDI CiviCRM extensions available when provisioning a site, one per line'),
+    '#default_value' => implode("\n", variable_get('hosting_ndi_extensions', array())),
+  );
+
+  $form['buttons']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save configuration'),
+  );
+
+  return $form;
+}
+
+/**
+ * Submit callback.
+ */
+function hosting_ndi_settings_submit($form, &$form_state) {
+  $extensions = explode("\n", $form_state['values']['hosting_ndi_extensions']);
+  foreach ($extensions as $key => $value) {
+    $extensions[$value] = $value;
+    unset($extensions[$key]);
+  }
+  variable_set('hosting_ndi_extensions', $extensions);
+}
+
+/**
  * Implementation of hook_form_alter()
  */
 function hosting_ndi_form_alter(&$form, $form_state, $form_id) {
@@ -13,12 +76,14 @@ function hosting_ndi_form_alter(&$form, $form_state, $form_id) {
       '#description' => t('Enable CiviCRM extensions when proivisioning a site.'),
     );
 
-    $form['ndi']['ndi'] = array(
-      '#type' => 'textfield',
+    $form['ndi']['ndi_civi_ext'] = array(
+      '#type' => 'radios',
+      '#options' => variable_get('hosting_ndi_extensions', array()),
       '#title' => t('Extension to enable'),
-      '#default_value' => $form['#node']->ndi ? $form['#node']->ndi : '',
+      '#default_value' => $form['#node']->ndi_civi_ext ? $form['#node']->ndi_civi_ext : '',
       '#weight' => 0,
     );
+
     return $form;
   }
 }
@@ -27,8 +92,8 @@ function hosting_ndi_form_alter(&$form, $form_state, $form_id) {
  * Implementation of hook_insert()
  */
 function hosting_ndi_insert($node) {
-  if (!empty($node->ndi)) {
-    db_query("INSERT INTO {hosting_ndi} (vid, nid, ndi) VALUES (%d, %d, '%s')", $node->vid, $node->nid, $node->ndi);
+  if (!empty($node->ndi_civi_ext)) {
+    db_query("INSERT INTO {hosting_ndi} (vid, nid, ndi_civi_ext) VALUES (%d, %d, '%s')", $node->vid, $node->nid, $node->ndi_civi_ext);
   }
 }
 
@@ -36,11 +101,11 @@ function hosting_ndi_insert($node) {
  * Implementation of hook_update()
  */
 function hosting_ndi_update($node) {
-  if (FALSE === db_fetch_array(db_query("SELECT ndi FROM {hosting_ndi} WHERE vid = %d", $node->vid))) {
+  if (FALSE === db_fetch_array(db_query("SELECT ndi_civi_ext FROM {hosting_ndi} WHERE vid = %d", $node->vid))) {
     hosting_ndi_insert($node);
   }
   else {
-    db_query("UPDATE {hosting_ndi} SET ndi = '%s' WHERE vid = %d", $node->ndi, $node->vid);
+    db_query("UPDATE {hosting_ndi} SET ndi_civi_ext = '%s' WHERE vid = %d", $node->ndi, $node->vid);
   }
 
 }
@@ -78,7 +143,7 @@ function hosting_ndi_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
         hosting_ndi_delete_revision($node);
         break;
       case 'load':
-        $additions = db_fetch_array(db_query("SELECT ndi FROM {hosting_ndi} WHERE vid = %d", $node->vid));
+        $additions = db_fetch_array(db_query("SELECT ndi_civi_ext FROM {hosting_ndi} WHERE vid = %d", $node->vid));
         return $additions;
         break;
     }

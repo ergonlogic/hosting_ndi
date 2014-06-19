@@ -4,11 +4,11 @@
  * Implementation of hook_hosting_site_context_options().
  */
 function hosting_ndi_hosting_site_context_options(&$task) {
-  if (isset($task->ref->ndi) && !empty($task->ref->ndi)) {
-    $task->context_options['ndi'] = $task->ref->ndi;
+  if (isset($task->ref->ndi_civi_ext) && !empty($task->ref->ndi_civi_ext)) {
+    $task->context_options['ndi_civi_ext'] = $task->ref->ndi_civi_ext;
   }
   else {
-    $task->context_options['ndi'] = 'null';
+    $task->context_options['ndi_civi_ext'] = 'null';
   }
 }
 
@@ -17,8 +17,8 @@ function hosting_ndi_hosting_site_context_options(&$task) {
  */
 function hosting_ndi_drush_context_import($context, &$node) {
   if ($context->type == 'site') {
-    if (isset($context->ndi) && !empty($context->ndi)) {
-      $node->ndi = $context->ndi;
+    if (isset($context->ndi_civi_ext) && !empty($context->ndi_civi_ext)) {
+      $node->ndi_civi_ext = $context->ndi_civi_ext;
     }
   }
 

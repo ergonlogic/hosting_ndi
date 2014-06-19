@@ -17,7 +17,7 @@ function hosting_ndi_schema() {
         'not null' => TRUE,
         'default' => 0,
       ),
-      'ndi' => array(
+      'ndi_civi_ext' => array(
         'type' => 'varchar',
         'length' => 128,
         'not null' => TRUE,
