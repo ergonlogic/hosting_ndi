@@ -11,5 +11,6 @@ class Provision_Service_ndi extends Provision_Service {
    */
   static function subscribe_site($context) {
     $context->setProperty('ndi_civi_ext');
+    drush_log('Registered NDI CiviCRM extension: ' . d()->ndi_civi_ext);
   }
 }
