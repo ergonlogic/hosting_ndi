@@ -58,9 +58,11 @@ function hosting_ndi_settings() {
 function hosting_ndi_settings_submit($form, &$form_state) {
   $extensions = explode("\n", $form_state['values']['hosting_ndi_extensions']);
   foreach ($extensions as $key => $value) {
+    $value = trim($value);
     $extensions[$value] = $value;
     unset($extensions[$key]);
   }
+
   variable_set('hosting_ndi_extensions', $extensions);
 }
 
@@ -69,7 +71,6 @@ function hosting_ndi_settings_submit($form, &$form_state) {
  */
 function hosting_ndi_form_alter(&$form, $form_state, $form_id) {
   if ($form_id == 'site_node_form') {
-
     $form['ndi'] = array(
       '#type' => 'fieldset',
       '#title' => t('NDI CiviCRM'),
@@ -105,7 +106,7 @@ function hosting_ndi_update($node) {
     hosting_ndi_insert($node);
   }
   else {
-    db_query("UPDATE {hosting_ndi} SET ndi_civi_ext = '%s' WHERE vid = %d", $node->ndi, $node->vid);
+    db_query("UPDATE {hosting_ndi} SET ndi_civi_ext = '%s' WHERE vid = %d", $node->ndi_civi_ext, $node->vid);
   }
 
 }
