@@ -78,10 +78,10 @@ function hosting_ndi_form_alter(&$form, $form_state, $form_id) {
     );
 
     $form['ndi']['ndi_civi_ext'] = array(
-      '#type' => 'radios',
+      '#type' => 'checkboxes',
       '#options' => variable_get('hosting_ndi_extensions', array()),
       '#title' => t('Extension to enable'),
-      '#default_value' => $form['#node']->ndi_civi_ext ? $form['#node']->ndi_civi_ext : '',
+//      '#default_value' => $form['#node']->ndi_civi_ext ? $form['#node']->ndi_civi_ext : '',
       '#weight' => 0,
     );
 
@@ -94,7 +94,11 @@ function hosting_ndi_form_alter(&$form, $form_state, $form_id) {
  */
 function hosting_ndi_insert($node) {
   if (!empty($node->ndi_civi_ext)) {
-    db_query("INSERT INTO {hosting_ndi} (vid, nid, ndi_civi_ext) VALUES (%d, %d, '%s')", $node->vid, $node->nid, $node->ndi_civi_ext);
+    foreach ($node->ndi_civi_ext as $key => $value) {
+      if ($value !== 0) {
+        db_query("INSERT INTO {hosting_ndi} (vid, nid, ndi_civi_ext) VALUES (%d, %d, '%s')", $node->vid, $node->nid, $key);
+      }
+    }
   }
 }
 
@@ -144,7 +148,13 @@ function hosting_ndi_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
         hosting_ndi_delete_revision($node);
         break;
       case 'load':
-        $additions = db_fetch_array(db_query("SELECT ndi_civi_ext FROM {hosting_ndi} WHERE vid = %d", $node->vid));
+        $result = db_query("SELECT ndi_civi_ext FROM {hosting_ndi} WHERE vid = %d", $node->vid);
+
+        while ($row = db_fetch_object($result)) {
+          $results[] = $row->ndi_civi_ext;
+        }
+        
+        $additions = array('ndi_civi_ext' => $results);
         return $additions;
         break;
     }
