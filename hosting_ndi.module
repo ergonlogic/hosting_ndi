@@ -77,7 +77,7 @@ function hosting_ndi_form_alter(&$form, $form_state, $form_id) {
     $form['ndi'] = array(
       '#type' => 'fieldset',
       '#title' => t('NDI CiviCRM'),
-      '#description' => t('Enable CiviCRM extensions when proivisioning a site.'),
+      '#description' => t('Enable CiviCRM extensions when provisioning a site.'),
     );
     // TODO: Fix that we show a checkbox even when no extensions are listed.
     $form['ndi']['ndi_civi_ext'] = array(
