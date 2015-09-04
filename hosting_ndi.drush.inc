@@ -21,5 +21,4 @@ function hosting_ndi_drush_context_import($context, &$node) {
       $node->ndi_civi_ext = $context->ndi_civi_ext;
     }
   }
-
 }

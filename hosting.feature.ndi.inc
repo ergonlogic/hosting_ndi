@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * @file
  *   The hosting feature definition for NDI CiviCRM extensions.
