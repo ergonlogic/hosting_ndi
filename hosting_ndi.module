@@ -82,6 +82,7 @@ function hosting_ndi_form_alter(&$form, $form_state, $form_id) {
     // TODO: Fix that we show a checkbox even when no extensions are listed.
     $form['ndi']['ndi_civi_ext'] = array(
       '#type' => 'checkboxes',
+      '#disabled' => isset($form['#node']->nid) ? TRUE : FALSE,
       '#options' => variable_get('hosting_ndi_extensions', array()),
       '#title' => t('Extension to enable'),
       '#default_value' => isset($form['#node']->ndi_civi_ext) ? $form['#node']->ndi_civi_ext : array(),
