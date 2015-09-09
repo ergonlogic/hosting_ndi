@@ -38,6 +38,7 @@ function ndi_provision_services() {
  * @see: https://github.com/drush-ops/drush/pull/223.
  */
 function ndi_drush_callback_list_alter($callback_list, $var_hook, $command, $args) {
+  drush_log('ndi_drush_callback_list_alter');
   if ($var_hook == 'post_provision_install') {
     // Retrieve the name of our callback.
     if ($callback_name = drush_get_option('ndi_civi_ext_callback', FALSE)) {
@@ -51,7 +52,9 @@ function ndi_drush_callback_list_alter($callback_list, $var_hook, $command, $arg
       }
     }
     else {
-      drush_set_error('NDI CIVICRM EXTENSION','ERROR: Could not find an NDI CiviCRM extension callback.');
+//      drush_set_error('NDI CIVICRM EXTENSION','ERROR: Could not find an NDI CiviCRM extension callback.');
+      // Test
+      drush_log('ERROR: Could not find an NDI CiviCRM extension callback.');
     }
   }
 }
