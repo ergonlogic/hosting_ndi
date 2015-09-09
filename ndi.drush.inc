@@ -30,33 +30,6 @@ function ndi_provision_services() {
 }
 
 /**
- * Implements hook_drush_callback_list_alter().
- *
- * Ensure our hook_post_provision_install comes after provision_civicrm's. We
- * can't configure CiviCRM until it's installed.
- *
- * @see: https://github.com/drush-ops/drush/pull/223.
- */
-function ndi_drush_callback_list_alter($callback_list, $var_hook, $command, $args) {
-  if ($var_hook == 'post_provision_install') {
-    // Retrieve the name of our callback.
-    if ($callback_name = drush_get_option('ndi_civi_ext_callback', FALSE)) {
-      // Find the index of our callback, and pull it out of the list.
-      if ($index = array_search($callback_name, array_keys($callback_list))) {
-        $callback = array_splice($callback_list, $index, 1);
-        // Find where to insert our callback, and add it back to the list.
-        $target = array_search('drush_provision_civicrm_post_provision_install', array_keys($callback_list));
-        $tail = array_splice($callback_list, $target + 1);
-        $callback_list += $callback + $tail;
-      }
-    }
-    else {
-      drush_set_error('NDI CIVICRM EXTENSION','ERROR: Could not find an NDI CiviCRM extension callback.');
-    }
-  }
-}
-
-/**
  * Enable a CiviCRM extension.
  *
  * Overkill. TODO: reduce this as CiviCRM allows.
