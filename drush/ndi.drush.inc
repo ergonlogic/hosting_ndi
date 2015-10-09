@@ -52,7 +52,7 @@ function ndi_enable_extensions($extensions) {
     // according to @totten.
     // This appears to need to be in a separate PHP process, so we call it via
     // Drush. We clear all caches to also ensure menu settings are updated.
-    drush_invoke_process('@self', 'civicrm-api', array('System.flush'));
+#    drush_invoke_process('@self', 'civicrm-api', array('System.flush'));
 
     // Clear cache so that our change to the frontpage takes effect. We do this
     // last, to ensure that the civi-case path exists.
