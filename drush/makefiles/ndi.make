@@ -6,7 +6,7 @@ api = 2
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 projects[ndi-pushbutton-profile][download][type] = "git"
-projects[ndi-pushbutton-profile][download][url] = "git://git.koumbit.net/ndi-pushbutton-profile.git"
+projects[ndi-pushbutton-profile][download][url] = "https://github.com/nditech/demtools_civisociety_profile.git"
 projects[ndi-pushbutton-profile][type] = "profile"
 projects[ndi-pushbutton-profile][subdir] = ""
 projects[ndi-pushbutton-profile][directory_name] = "ndi_pushbutton"
