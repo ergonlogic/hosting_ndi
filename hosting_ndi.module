@@ -13,6 +13,12 @@ function hosting_ndi_menu() {
     'type' => MENU_LOCAL_TASK,
     'access arguments' => array('administer NDI CiviCRM extensions'),
   );
+  $items['admin/hosting/ndi_site_list'] = array(
+    'title' => 'NDI site list',
+    'description' => 'A list of all sites and their aliases (for monitoring).',
+    'page callback' => 'hosting_ndi_site_list',
+    'access arguments' => array('view ndi site list'),
+  );
 
   return $items;
 }
@@ -21,11 +27,39 @@ function hosting_ndi_menu() {
  * Implementation of hook_permission().
  */
 function hosting_ndi_permission() {
-  return array('administer NDI CiviCRM extensions' => array(
+  return array(
+    'administer NDI CiviCRM extensions' => array(
       'title' => t('Administer NDI CiviCRM extensions'),
       'description' => t('Perform administration tasks for NDI CiviCRM extensions.'),
     ),
+    'view ndi site list' => array(
+      'title' => t('View the NDI site list'),
+      'description' => t('View a list of all enabled dites and their URL alises.'),
+    ),
   );
+}
+
+/**
+ * Callback to print a site list.
+ */
+function hosting_ndi_site_list() {
+  $servers = hosting_get_servers('http');
+  $platforms = array();
+  foreach ($servers as $server_nid => $server_name) {
+    $platforms += _hosting_get_platforms($server_nid);
+  }
+  $sites = array();
+  foreach ($platforms as $platform_nid => $platform_name) {
+    $sites += hosting_get_sites_by_status($platform_nid, HOSTING_SITE_ENABLED);
+  }
+  $urls = array();
+  foreach ($sites as $site_nid => $node) {
+    $site = $node->title;
+    $urls[$site] = array($site);
+    $urls[$site] = array_merge($urls[$site], $node->aliases);
+    $urls[$site] = array_merge($urls[$site], $node->aliases_automatic);
+  }
+  print drupal_json_encode($urls);
 }
 
 /**
