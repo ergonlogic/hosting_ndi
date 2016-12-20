@@ -173,3 +173,13 @@ function hosting_ndi_node_load($nodes) {
     }
   }
 }
+
+/**
+ * Implements hook_hosting_monitor_probes().
+ */
+function hosting_ndi_hosting_monitor_probes() {
+  $probes = array(
+    'enable_metrics' => 'EnableMetricsProbe',
+  );
+  return $probes;
+}
