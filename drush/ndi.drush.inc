@@ -90,3 +90,51 @@ function ndi_enable_modules($modules) {
 
 }
 
+/**
+ * Implements hook_civicrm_settings_template_alter().
+ *
+ * @see provision_civicrm_civicrm_settings_parameters_alter().
+ */
+function ndi_civicrm_settings_template_alter(&$template) {
+  $master_site_url = 'https://civisociet-170b.demcloud.org';
+  $site_key = d()->civicrm_sitekey;
+  $api_key = 'user_api_key';
+  $master_reporting_url = "{$master_site_url}/sites/all/modules/contrib/civicrm/extern/rest.php?entity=Metrics&action=report&key={$site_key}&api_key={$api_key}";
+
+  $site_name = ndi_execute(d()->name, 'drush_backend_set_result(variable_get("site_name"));');
+
+  $replacements = array();
+  $replacements['insert NDI metrics settings.'] = array(
+    'search_regex' => '/^.*?civicrm_setting.*logging_no_trigger_permission.*\n?/m',
+    'replace_line' => " // \$civicrm_setting['CiviCRM Preferences']['logging_no_trigger_permission'] = 1;\n
+
+  // Configuration added in ndi_civicrm_settings_template_alter()
+  \$civicrm_setting['metrics']['metrics_reporting_url'] = '{$master_reporting_url}';\n
+  \$civicrm_setting['metrics']['metrics_site_name'] = '{$site_name}';\n
+  \$civicrm_setting['metrics']['metrics_ca_path'] = '';\n
+  \$civicrm_setting['metrics']['metrics_ignore_verify_peer'] = TRUE;\n
+  \$civicrm_setting['metrics']['metrics_ignore_verify_host'] = TRUE;\n
+",
+
+  );
+
+  foreach ($replacements as $desc => $line) {
+    // Throw a warning if any of our replacements cannot be found.
+    if (!preg_match($line['search_regex'], $template)) {
+      drush_log(dt('CiviCRM: Failed to ' . $desc), 'warning');
+    }
+    else {
+      $count = 0;
+      $template = preg_replace($line['search_regex'], $line['replace_line'], $template, -1, $count);
+      if ($count > 0) {
+        drush_log(dt('CiviCRM: Succeeded to ' . $desc), 'success');
+      }
+    }
+  }
+}
+
+function ndi_execute($site, $code) {
+  $result = drush_invoke_process($site, ' php-eval \'' . $code . '\'', array(), array(), array('method' => 'POST', 'integrate' => TRUE));
+  return $result['object'];
+}
+
