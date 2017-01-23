@@ -104,19 +104,28 @@ function ndi_civicrm_settings_template_alter(&$template) {
   $site_name = ndi_execute(d()->name, 'drush_backend_set_result(variable_get("site_name"));');
 
   $replacements = array();
-  $replacements['insert NDI metrics settings.'] = array(
-    'search_regex' => '/^.*?civicrm_setting.*logging_no_trigger_permission.*\n?/m',
-    'replace_line' => " // \$civicrm_setting['CiviCRM Preferences']['logging_no_trigger_permission'] = 1;\n
 
-  // Configuration added in ndi_civicrm_settings_template_alter()
-  \$civicrm_setting['metrics']['metrics_reporting_url'] = '{$master_reporting_url}';\n
-  \$civicrm_setting['metrics']['metrics_site_name'] = '{$site_name}';\n
-  \$civicrm_setting['metrics']['metrics_ca_path'] = '';\n
-  \$civicrm_setting['metrics']['metrics_ignore_verify_peer'] = TRUE;\n
-  \$civicrm_setting['metrics']['metrics_ignore_verify_host'] = TRUE;\n
-",
+  if (version_compare(d()->civicrm_version, '4.7', 'lt')) {
+    $replacements['insert NDI metrics settings.'] = array(
+      'search_regex' => '/^.*?civicrm_setting.*versionAlert.*\n?/m',
+      'replace_line' => " // \$civicrm_setting['CiviCRM Preferences']['versionAlert']; = false;\n",
+    );
+  }
+  else {
+    $replacements['insert NDI metrics settings.'] = array(
+      'search_regex' => '/^.*?civicrm_setting.*logging_no_trigger_permission.*\n?/m',
+      'replace_line' => " // \$civicrm_setting['CiviCRM Preferences']['logging_no_trigger_permission'] = 1;\n",
+    );
+  }
 
-  );
+  $replacements['insert NDI metrics settings.']['replace_line'] .= "
+    // Configuration added in ndi_civicrm_settings_template_alter()
+    \$civicrm_setting['metrics']['metrics_reporting_url'] = '{$master_reporting_url}';\n
+    \$civicrm_setting['metrics']['metrics_site_name'] = '{$site_name}';\n
+    \$civicrm_setting['metrics']['metrics_ca_path'] = '';\n
+    \$civicrm_setting['metrics']['metrics_ignore_verify_peer'] = TRUE;\n
+    \$civicrm_setting['metrics']['metrics_ignore_verify_host'] = TRUE;\n
+  ";
 
   foreach ($replacements as $desc => $line) {
     // Throw a warning if any of our replacements cannot be found.
