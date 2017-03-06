@@ -91,6 +91,21 @@ function ndi_enable_modules($modules) {
 }
 
 /**
+ * Set the API key for the 'admin' user on the master server.
+ */
+function _ndi_civicrm_set_api_key($site, $key) {
+  $args = [
+    'Contact.create',
+    'contact_type=Individual',
+    'id=2',
+    "api_key=$key",
+  ];
+  $opts = [];
+  $result = drush_invoke_process($site, 'cvapi', $args, $opts, array('method' => 'POST', 'integrate' => FALSE));
+  return $result['object'];
+}
+
+/**
  * Implements hook_civicrm_settings_template_alter().
  *
  * @see provision_civicrm_civicrm_settings_parameters_alter().
@@ -98,8 +113,13 @@ function ndi_enable_modules($modules) {
 function ndi_civicrm_settings_template_alter(&$template) {
   $master_site_url = 'https://civisociet-170b.demcloud.org';
   $site_key = d()->civicrm_sitekey;
-  $api_key = 'user_api_key';
-  $master_reporting_url = "{$master_site_url}/sites/all/modules/contrib/civicrm/extern/rest.php?entity=Metrics&action=report&key={$site_key}&api_key={$api_key}";
+  // We use the generated sitekey for the master server as the API key.
+  $api_key = d($master_site_url)->civicrm_sitekey;
+  // If the current site is the master, then we also set the API key for the 'admin' user.
+  if (d()->uri == $master_site_url) {
+    _ndi_civicrm_set_api_key($master_site_url, $api_key);
+  }
+  $master_reporting_url = "https://{$master_site_url}/sites/all/modules/contrib/civicrm/extern/rest.php?entity=Metrics&action=report&key={$site_key}&api_key={$api_key}";
 
   $site_name = ndi_execute(d()->name, 'drush_backend_set_result(variable_get("site_name"));');
 
