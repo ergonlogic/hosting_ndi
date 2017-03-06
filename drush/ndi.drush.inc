@@ -111,10 +111,11 @@ function _ndi_civicrm_set_api_key($site, $key) {
  * @see provision_civicrm_civicrm_settings_parameters_alter().
  */
 function ndi_civicrm_settings_template_alter(&$template) {
-  $master_site_url = 'https://civisociet-170b.demcloud.org';
-  $site_key = d()->civicrm_sitekey;
-  // We use the generated sitekey for the master server as the API key.
-  $api_key = d($master_site_url)->civicrm_sitekey;
+  $master_site_url = 'metrics-master.demcloud.org';
+  // We re-use the generated sitekey for the master server as the API key.
+  // At some point, we might want to generate unique API keys per client site,
+  // etc. But that seems like overkill, at the moment.
+  $site_key = $api_key = d($master_site_url)->civicrm_sitekey;
   // If the current site is the master, then we also set the API key for the 'admin' user.
   if (d()->uri == $master_site_url) {
     _ndi_civicrm_set_api_key($master_site_url, $api_key);
