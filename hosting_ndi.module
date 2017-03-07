@@ -179,7 +179,8 @@ function hosting_ndi_node_load($nodes) {
  */
 function hosting_ndi_hosting_monitor_probes() {
   $probes = array(
-    'enable_metrics' => 'EnableMetricsProbe',
+    'enable_ndi_metrics' => 'EnableNdiMetricsProbe',
+    'enable_metrics_client' => 'EnableMetricsClientProbe',
   );
   return $probes;
 }
