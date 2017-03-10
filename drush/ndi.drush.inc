@@ -101,7 +101,7 @@ function _ndi_civicrm_set_api_key($site, $key) {
     "api_key=$key",
   ];
   $opts = [];
-  $result = drush_invoke_process($site, 'cvapi', $args, $opts, array('method' => 'POST', 'integrate' => FALSE));
+  $result = drush_invoke_process($site, 'cvapi', $args, $opts, array('method' => 'POST', 'integrate' => TRUE));
   return $result['object'];
 }
 
@@ -116,13 +116,15 @@ function ndi_civicrm_settings_template_alter(&$template) {
   // At some point, we might want to generate unique API keys per client site,
   // etc. But that seems like overkill, at the moment.
   $site_key = $api_key = d($master_site_url)->civicrm_sitekey;
-  // If the current site is the master, then we also set the API key for the 'admin' user.
+  // If the current site is the master, then we also set the API key for the
+  // 'admin' user.  TODO: This fails during migrations, so only run it during
+  // regular "verify" tasks.
   if (d()->uri == $master_site_url) {
     _ndi_civicrm_set_api_key($master_site_url, $api_key);
   }
   $master_reporting_url = "https://{$master_site_url}/sites/all/modules/contrib/civicrm/extern/rest.php?entity=Metrics&action=report&key={$site_key}&api_key={$api_key}";
 
-  $site_name = ndi_execute(d()->name, 'drush_backend_set_result(variable_get("site_name"));');
+  $site_name = d()->uri;
 
   $replacements = array();
 
@@ -161,10 +163,5 @@ function ndi_civicrm_settings_template_alter(&$template) {
       }
     }
   }
-}
-
-function ndi_execute($site, $code) {
-  $result = drush_invoke_process($site, ' php-eval \'' . $code . '\'', array(), array(), array('method' => 'POST', 'integrate' => TRUE));
-  return $result['object'];
 }
 
