@@ -1,0 +1,128 @@
+<?php
+/**
+ * @file
+ * Code for the NDI Site Inventory feature.
+ */
+
+include_once 'hosting_ndi_inventory.features.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function hosting_ndi_inventory_menu() {
+  $items = array();
+
+  $items['admin/hosting/ndi'] = array(
+    'title' => 'NDI',
+    'description' => 'A configuration form for specifying which fields to include in the NDI inventory.',
+    'page arguments' => array('hosting_ndi_inventory_settings'),
+    // @TODO: secure this.
+    'access arguments' => array('access content'),
+  );
+
+  $items['node/%node/ndi'] = array(
+    'title' => 'NDI',
+    'description' => 'A page containing the NDI inventory fields for this site.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('hosting_ndi_inventory_site_page', 1),
+    // @TODO: secure this.
+    // @TODO: filter this to site nodes.
+    'access arguments' => array('access content'),
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  return $items;
+}
+
+/**
+ * Form definition for our inventory site page.
+ */
+function hosting_ndi_inventory_site_page($form, &$form_state, $node) {
+  // Stash our original node in the form for retrieval in our submit handler.
+  $form['#node'] = $node;
+
+  // Extract each of the enabled inventory fields from the node to attach to
+  // this form.
+  foreach (_get_inventory_fields() as $name => $enabled) {
+    if ($enabled) {
+      field_attach_form('node', $node, $form, $form_state, NULL, array('field_name' => $name));
+    }
+  }
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+    '#weight' => 99,
+  );
+
+  return $form;
+}
+
+/**
+ * Submit handler for the inventory site page.
+ */
+function hosting_ndi_inventory_site_page_submit($form, &$form_state) {
+  // Retrieve the node as originally provided to our form.
+  $node = $form['#node'];
+
+  // Update each of the enabled inventory fields on the node from the form
+  // state, ignoring the rest.
+  foreach (_get_inventory_fields() as $name => $enabled) {
+    if ($enabled) {
+      $node->$name = $form_state['values'][$name];
+    }
+    else {
+      unset($node->$name);
+    }
+  }
+
+  // Save the resulting field values.
+  field_attach_presave('node', $node);
+  field_attach_update('node', $node);
+}
+
+/**
+ * NDI site inventory configuration form.
+ */
+function hosting_ndi_inventory_settings() {
+  $form = array();
+  $form['ndi_inventory_fields'] = array(
+    '#title' => t('Site inventory fields'),
+    '#type' => 'checkboxes',
+    '#options' => _get_inventory_field_options(),
+    '#default_value' => _get_inventory_fields(),
+  );
+  return system_settings_form($form);
+}
+
+/**
+ * Helper function to get list of inventory fields.
+ */
+function _get_inventory_fields() {
+  return variable_get('ndi_inventory_fields', array());
+}
+
+/**
+ * Helper function to get list of available inventory fields.
+ */
+function _get_inventory_field_options() {
+  $options = array();
+  $field_instances = field_info_instances();
+  foreach ($field_instances['node']['site'] as $name => $field_info) {
+    // Provide both human-readable label and machine name.
+    $options[$name] = t($field_info['label'] . ' (' . $name . ')');
+  }
+  return $options;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function hosting_ndi_inventory_form_site_node_form_alter(&$form, $form_state) {
+  $inventory_fields = _get_inventory_fields();
+  foreach (_get_inventory_fields() as $field => $hidden) {
+    if ($hidden) {
+      $form[$field]['#access'] = FALSE;
+    }
+  }
+}
