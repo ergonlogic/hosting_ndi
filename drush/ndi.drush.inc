@@ -91,6 +91,30 @@ function ndi_enable_modules($modules) {
 }
 
 /**
+ * Implements drush_HOOK_post_COMMAND().
+ */
+function drush_ndi_post_provision_verify() {
+  if (d()->type == 'site' && isset(d()->civicrm_sitekey)) {
+    civicrm_initialize();
+    $result = civicrm_api3(
+      "Extension",
+      "install",
+      ["keys" => [
+        "com.ginkgostreet.metricclient",
+        "org.ndi.metrics",
+      ]]
+    );
+  
+    if ($result['is_error']) {
+      drush_log('Failed to install NDI Metrics extensions.', 'warning');
+    }
+    else {
+      drush_log('Installed NDI Metrics extensions.', 'success');
+    }
+  }
+}
+
+/**
  * Set the API key for the 'admin' user on the master server.
  */
 function _ndi_civicrm_set_api_key($site, $key) {
