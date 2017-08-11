@@ -3,6 +3,9 @@ default:
     cache: null
     filters:
       tags: "~@wip&&~@disabled"
+  formatters:
+    pretty:
+      paths: false
 
   suites:
     default:
@@ -12,6 +15,10 @@ default:
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
+      paths:
+        - %paths.base%/features
+        - %paths.base%/modules/inventory/features
+
   extensions:
     Behat\MinkExtension:
       goutte: ~
