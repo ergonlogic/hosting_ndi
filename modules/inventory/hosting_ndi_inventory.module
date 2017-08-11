@@ -35,6 +35,33 @@ function hosting_ndi_inventory_menu() {
 }
 
 /**
+ * Implements hook_menu_alter().
+ */
+function hosting_ndi_inventory_menu_alter(&$items) {
+  $items['hosting/ndi/inventory/csv']['access callback'] = 'hosting_ndi_inventory_csv_access';
+}
+
+/**
+ * Secure access to the CSV site inventory.
+ */
+function hosting_ndi_inventory_csv_access() {
+  // Aegir admins have access.
+  // @TODO: replace this with a granular permission.
+  $admin_role = user_role_load_by_name('aegir administrator');
+  if (user_has_role($admin_role->rid)) {
+    return TRUE;
+  }
+  // Otherwise check for a key passed as a query parameter.
+  $q = drupal_get_query_parameters();
+  if (!array_key_exists('ndi_csv_key', $q)) {
+    return FALSE;
+  }
+  if ($q['ndi_csv_key'] === variable_get('ndi_inventory_csv_key')) {
+    return TRUE;
+  }
+}
+
+/**
  * Form definition for our inventory site page.
  */
 function hosting_ndi_inventory_site_page($form, &$form_state, $node) {
@@ -91,6 +118,13 @@ function hosting_ndi_inventory_settings() {
     '#type' => 'checkboxes',
     '#options' => _get_inventory_field_options(),
     '#default_value' => _get_inventory_fields(),
+  );
+  $form['ndi_inventory_csv_key'] = array(
+    '#title' => t('CSV key'),
+    '#description' => t('A secret key to secure access to the CSV site inventory file. When retrieving the CSV file, this value must be added as a query paranter (i.e., "http://example.com/hosting/ndi/inventory/csv?ndi_csv_key=&lt;KEY>")'),
+    '#type' => 'textfield',
+    '#size' => 45,
+    '#default_value' => variable_get('ndi_inventory_csv_key', FALSE),
   );
   return system_settings_form($form);
 }

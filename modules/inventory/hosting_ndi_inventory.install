@@ -1,0 +1,11 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function hosting_ndi_inventory_install() {
+  // We need to alter a Views-generated menu item, so our code has to run
+  // later. See: hosting_ndi_inventory_menu_alter().
+  db_query("UPDATE {system} SET weight = 100 WHERE name =
+'hosting_ndi_inventory'");
+}

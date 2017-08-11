@@ -22,7 +22,7 @@ function hosting_ndi_inventory_views_default_views() {
 
   /* Display: Defaults */
   $handler = $view->new_display('default', 'Defaults', 'default');
-  $handler->display->display_options['title'] = 'Sites';
+  $handler->display->display_options['title'] = 'Site inventory (preview)';
   $handler->display->display_options['use_ajax'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
@@ -103,35 +103,23 @@ function hosting_ndi_inventory_views_default_views() {
   $handler->display->display_options['relationships']['platform']['id'] = 'platform';
   $handler->display->display_options['relationships']['platform']['table'] = 'hosting_site';
   $handler->display->display_options['relationships']['platform']['field'] = 'platform';
-  /* Relationship: Hosting Site: Client */
-  $handler->display->display_options['relationships']['client']['id'] = 'client';
-  $handler->display->display_options['relationships']['client']['table'] = 'hosting_site';
-  $handler->display->display_options['relationships']['client']['field'] = 'client';
   /* Relationship: Hosting Site: Database Server */
   $handler->display->display_options['relationships']['db_server']['id'] = 'db_server';
   $handler->display->display_options['relationships']['db_server']['table'] = 'hosting_site';
   $handler->display->display_options['relationships']['db_server']['field'] = 'db_server';
-  /* Field: Class */
-  $handler->display->display_options['fields']['status']['id'] = 'status';
-  $handler->display->display_options['fields']['status']['table'] = 'hosting_site';
-  $handler->display->display_options['fields']['status']['field'] = 'status';
-  $handler->display->display_options['fields']['status']['ui_name'] = 'Class';
-  $handler->display->display_options['fields']['status']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['status']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['status']['status_mode'] = 'class';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = 'Site';
-  $handler->display->display_options['fields']['title']['element_class'] = 'hosting-status';
-  $handler->display->display_options['fields']['title']['element_wrapper_class'] = 'hosting-status';
+  $handler->display->display_options['fields']['title']['label'] = 'URL';
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title_3']['id'] = 'title_3';
   $handler->display->display_options['fields']['title_3']['table'] = 'node';
   $handler->display->display_options['fields']['title_3']['field'] = 'title';
   $handler->display->display_options['fields']['title_3']['relationship'] = 'profile';
   $handler->display->display_options['fields']['title_3']['label'] = 'Profile';
+  $handler->display->display_options['fields']['title_3']['link_to_node'] = FALSE;
   /* Field: Content: Post date */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'node';
@@ -146,16 +134,7 @@ function hosting_ndi_inventory_views_default_views() {
   $handler->display->display_options['fields']['title_2']['label'] = 'Platform';
   $handler->display->display_options['fields']['title_2']['alter']['max_length'] = '20';
   $handler->display->display_options['fields']['title_2']['alter']['trim'] = TRUE;
-  /* Field: Hosting Site: Verified */
-  $handler->display->display_options['fields']['verified']['id'] = 'verified';
-  $handler->display->display_options['fields']['verified']['table'] = 'hosting_site';
-  $handler->display->display_options['fields']['verified']['field'] = 'verified';
-  $handler->display->display_options['fields']['verified']['exclude'] = TRUE;
-  /* Sort criterion: Hosting Site: Status */
-  $handler->display->display_options['sorts']['status']['id'] = 'status';
-  $handler->display->display_options['sorts']['status']['table'] = 'hosting_site';
-  $handler->display->display_options['sorts']['status']['field'] = 'status';
-  $handler->display->display_options['sorts']['status']['order'] = 'DESC';
+  $handler->display->display_options['fields']['title_2']['link_to_node'] = FALSE;
   /* Sort criterion: Content: Title */
   $handler->display->display_options['sorts']['title']['id'] = 'title';
   $handler->display->display_options['sorts']['title']['table'] = 'node';
@@ -182,30 +161,9 @@ function hosting_ndi_inventory_views_default_views() {
   $handler->display->display_options['filters']['status_1']['table'] = 'node';
   $handler->display->display_options['filters']['status_1']['field'] = 'status';
   $handler->display->display_options['filters']['status_1']['value'] = '1';
-  /* Filter criterion: Content: Title */
-  $handler->display->display_options['filters']['title']['id'] = 'title';
-  $handler->display->display_options['filters']['title']['table'] = 'node';
-  $handler->display->display_options['filters']['title']['field'] = 'title';
-  $handler->display->display_options['filters']['title']['operator'] = 'contains';
-  $handler->display->display_options['filters']['title']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['title']['expose']['operator_id'] = 'title_op';
-  $handler->display->display_options['filters']['title']['expose']['label'] = 'Site';
-  $handler->display->display_options['filters']['title']['expose']['operator'] = 'title_op';
-  $handler->display->display_options['filters']['title']['expose']['identifier'] = 'title';
-  /* Filter criterion: Content: Title */
-  $handler->display->display_options['filters']['title_1']['id'] = 'title_1';
-  $handler->display->display_options['filters']['title_1']['table'] = 'node';
-  $handler->display->display_options['filters']['title_1']['field'] = 'title';
-  $handler->display->display_options['filters']['title_1']['relationship'] = 'profile';
-  $handler->display->display_options['filters']['title_1']['operator'] = 'contains';
-  $handler->display->display_options['filters']['title_1']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['title_1']['expose']['operator_id'] = 'title_1_op';
-  $handler->display->display_options['filters']['title_1']['expose']['label'] = 'Profile';
-  $handler->display->display_options['filters']['title_1']['expose']['operator'] = 'title_1_op';
-  $handler->display->display_options['filters']['title_1']['expose']['identifier'] = 'title_1';
 
-  /* Display: Site List Page */
-  $handler = $view->new_display('page', 'Site List Page', 'page_sites');
+  /* Display: Site inventory */
+  $handler = $view->new_display('page', 'Site inventory', 'page_sites');
   $handler->display->display_options['defaults']['access'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['access']['perm'] = 'create site';
@@ -267,14 +225,29 @@ function hosting_ndi_inventory_views_default_views() {
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['content'] = 'No sites have been created. <a href="/node/add/site">Click here</a> to add one.';
   $handler->display->display_options['empty']['area']['format'] = '1';
-  $handler->display->display_options['path'] = 'hosting/ndi_site_list/inventory';
+  $handler->display->display_options['path'] = 'hosting/ndi/inventory';
   $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'Site Inventory';
+  $handler->display->display_options['menu']['title'] = 'Inventory';
   $handler->display->display_options['menu']['description'] = 'NDI Site Inventory';
   $handler->display->display_options['menu']['weight'] = '1';
-  $handler->display->display_options['menu']['name'] = 'management';
+  $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
+
+  /* Display: Data export */
+  $handler = $view->new_display('views_data_export', 'Data export', 'views_data_export_1');
+  $handler->display->display_options['defaults']['access'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['defaults']['query'] = FALSE;
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['query']['options']['disable_sql_rewrite'] = TRUE;
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['style_plugin'] = 'views_data_export_csv';
+  $handler->display->display_options['path'] = 'hosting/ndi/inventory/csv';
+  $handler->display->display_options['displays'] = array(
+    'page_sites' => 'page_sites',
+    'default' => 0,
+  );
   $export['ndi_site_inventory'] = $view;
 
   return $export;
