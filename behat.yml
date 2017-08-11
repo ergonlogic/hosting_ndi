@@ -1,0 +1,28 @@
+default:
+  gherkin:
+    cache: null
+    filters:
+      tags: "~@wip&&~@disabled"
+
+  suites:
+    default:
+      contexts:
+        - FeatureContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\DrushContext
+  extensions:
+    Behat\MinkExtension:
+      goutte: ~
+      selenium2: ~
+    Drupal\DrupalExtension:
+      blackbox: ~
+      drupal: ~
+      api_driver: 'drupal'
+      region_map:
+        content: '#content'
+        navigation: '#navigation'
+      selectors:
+        error_message_selector: ".crm-severity-error"
+        warning_message_selector: ".crm-severity-warning"
