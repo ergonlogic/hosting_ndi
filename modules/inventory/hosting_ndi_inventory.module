@@ -75,7 +75,7 @@ function hosting_ndi_inventory_site_page($form, &$form_state, $node) {
       field_attach_form('node', $node, $form, $form_state, NULL, array('field_name' => $name));
     }
   }
-
+  _sort_contact_fields_into_fieldsets($form);
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save'),
@@ -83,6 +83,81 @@ function hosting_ndi_inventory_site_page($form, &$form_state, $node) {
   );
 
   return $form;
+}
+
+/**
+ * Fields in groups/fieldsets don't appear in our separate form. So we add
+ * those fieldsets manually here.
+ */
+function _sort_contact_fields_into_fieldsets(&$form) {
+  // Move all inventory fields (except the "Inventory enabled" checkbox) into a
+  // fieldset, so we can easily hide them, when a site isn't being managed in
+  // the inventory.
+  $form['fieldset_ndi_inventory'] = array(
+    '#type' => 'fieldset', 
+    '#weight' => 5,
+    '#states' => array(
+      // Hide the rest of the inventory fields when the 'Inventory enabled'
+      // checkbox is disabled.
+      'invisible' => array(
+        ':input[name="field_inventory_enabled[und]"]' => array('checked' => FALSE),
+      ),
+    ),
+  );
+  foreach (_get_inventory_fields() as $name => $enabled) {
+    if ($enabled && $name != 'field_inventory_enabled') {
+      $form['fieldset_ndi_inventory'][$name] = $form[$name];
+      unset($form[$name]);
+    }
+  }
+  $structure = array(
+    'fieldset_client_poc1' => array(
+      'Client POC 1' => array(
+        'field_client_poc1_first_name',
+        'field_client_poc1_last_name',
+        'field_client_poc1_phone',
+        'field_client_poc1_email',
+      ),
+    ),
+    'fieldset_client_poc2' => array(
+      'Client POC 2' => array(
+        'field_client_poc2_first_name',
+        'field_client_poc2_last_name',
+        'field_client_poc2_phone',
+        'field_client_poc2_email',
+      ),
+    ),
+    'fieldset_ndi_poc' => array(
+      'NDI POC' => array(
+        'field_ndi_poc_first_name',
+        'field_ndi_poc_last_name',
+        'field_ndi_poc_phone',
+        'field_ndi_poc_email',
+      ),
+    ),
+    'fieldset_nditech_poc' => array(
+      'NDItech POC' => array(
+        'field_nditech_poc_first_name',
+        'field_nditech_poc_last_name',
+        'field_nditech_manager_email',
+      ),
+    ),
+  );
+  foreach ($structure as $fieldset => $info) {
+    foreach ($info as $title => $fields) {
+      $form['fieldset_ndi_inventory'][$fieldset] = array(
+        '#type' => 'fieldset', 
+        '#title' => $title,
+        '#weight' => 5,
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+      );
+      foreach ($fields as $field) {
+        $form['fieldset_ndi_inventory'][$fieldset][$field] = $form['fieldset_ndi_inventory'][$field];
+        unset($form['fieldset_ndi_inventory'][$field]);
+      }
+    }
+  }
 }
 
 /**
