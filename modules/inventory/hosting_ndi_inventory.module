@@ -12,17 +12,17 @@ include_once 'hosting_ndi_inventory.features.inc';
 function hosting_ndi_inventory_menu() {
   $items = array();
 
-  $items['admin/hosting/ndi'] = array(
-    'title' => 'NDI',
-    'description' => 'A configuration form for specifying which fields to include in the NDI inventory.',
+  $items['admin/hosting/inventory'] = array(
+    'title' => 'Inventory',
+    'description' => 'Configuration for site inventory.',
     'page arguments' => array('hosting_ndi_inventory_settings'),
     // @TODO: secure this.
     'access arguments' => array('access content'),
   );
 
-  $items['node/%node/ndi'] = array(
-    'title' => 'NDI',
-    'description' => 'A page containing the NDI inventory fields for this site.',
+  $items['node/%node/inventory'] = array(
+    'title' => 'Inventory',
+    'description' => 'A inventory fields for this site.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('hosting_ndi_inventory_site_page', 1),
     // @TODO: secure this.
@@ -94,7 +94,7 @@ function _sort_contact_fields_into_fieldsets(&$form) {
   // fieldset, so we can easily hide them, when a site isn't being managed in
   // the inventory.
   $form['fieldset_ndi_inventory'] = array(
-    '#type' => 'fieldset', 
+    '#type' => 'fieldset',
     '#weight' => 5,
     '#states' => array(
       // Hide the rest of the inventory fields when the 'Inventory enabled'
@@ -146,7 +146,7 @@ function _sort_contact_fields_into_fieldsets(&$form) {
   foreach ($structure as $fieldset => $info) {
     foreach ($info as $title => $fields) {
       $form['fieldset_ndi_inventory'][$fieldset] = array(
-        '#type' => 'fieldset', 
+        '#type' => 'fieldset',
         '#title' => $title,
         '#weight' => 5,
         '#collapsible' => TRUE,
@@ -190,12 +190,13 @@ function hosting_ndi_inventory_settings() {
   $form = array();
   $form['ndi_inventory_fields'] = array(
     '#title' => t('Site inventory fields'),
+    '#description' => t('Select which fields to move into the inventory tab for each site.'),
     '#type' => 'checkboxes',
     '#options' => _get_inventory_field_options(),
     '#default_value' => _get_inventory_fields(),
   );
   $form['ndi_inventory_csv_key'] = array(
-    '#title' => t('CSV key'),
+    '#title' => t('Inventory API key'),
     '#description' => t('A secret key to secure access to the CSV site inventory file. When retrieving the CSV file, this value must be added as a query paranter (i.e., "http://example.com/hosting/ndi/inventory/csv?ndi_csv_key=&lt;KEY>")'),
     '#type' => 'textfield',
     '#size' => 45,
