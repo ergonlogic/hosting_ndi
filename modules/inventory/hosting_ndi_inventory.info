@@ -61,4 +61,5 @@ features[field_instance][] = node-site-field_nditech_manager_email
 features[field_instance][] = node-site-field_nditech_poc_first_name
 features[field_instance][] = node-site-field_nditech_poc_last_name
 features[views_view][] = ndi_site_inventory
+features[views_view][] = ndi_site_inventory_exclusions
 features_exclude[menu_custom][management] = management
