@@ -229,10 +229,25 @@ function _get_inventory_field_options() {
  * Implements hook_form_FORM_ID_alter().
  */
 function hosting_ndi_inventory_form_site_node_form_alter(&$form, $form_state) {
-  $inventory_fields = _get_inventory_fields();
   foreach (_get_inventory_fields() as $field => $hidden) {
     if ($hidden) {
       $form[$field]['#access'] = FALSE;
+    }
+  }
+}
+
+/**
+ * Implements hook_node_view_alter().
+ */
+function hosting_ndi_inventory_node_view_alter(&$build) {
+  $full_node = $build['#view_mode'] == 'full';
+  $is_a_site = $build['#bundle'] == 'site';
+  $inv_enabled = (boolean) $build['field_inventory_enabled']['#items'][0]['value'];
+  #if ($build['#view_mode'] == 'full' && $build['#bundle'] == 'site' && $build['field_inventory_enabled']['#items'][0]['value']) {
+  // Only display inventory fieldset when inventory is enabled.
+  if ($full_node && $is_a_site && !$inv_enabled) {
+    foreach (_get_inventory_fields() as $field => $hidden) {
+      $build[$field]['#access'] = FALSE;
     }
   }
 }
