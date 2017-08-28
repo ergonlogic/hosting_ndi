@@ -147,17 +147,14 @@ function hosting_ndi_inventory_views_default_views() {
   $handler->display->display_options['fields']['field_client_organization_team']['id'] = 'field_client_organization_team';
   $handler->display->display_options['fields']['field_client_organization_team']['table'] = 'field_data_field_client_organization_team';
   $handler->display->display_options['fields']['field_client_organization_team']['field'] = 'field_client_organization_team';
+  /* Field: Content: Region */
+  $handler->display->display_options['fields']['field_ndi_region']['id'] = 'field_ndi_region';
+  $handler->display->display_options['fields']['field_ndi_region']['table'] = 'field_data_field_ndi_region';
+  $handler->display->display_options['fields']['field_ndi_region']['field'] = 'field_ndi_region';
   /* Field: Content: Country */
   $handler->display->display_options['fields']['field_client_country']['id'] = 'field_client_country';
   $handler->display->display_options['fields']['field_client_country']['table'] = 'field_data_field_client_country';
   $handler->display->display_options['fields']['field_client_country']['field'] = 'field_client_country';
-  /* Field: Countries: Continent */
-  $handler->display->display_options['fields']['continent']['id'] = 'continent';
-  $handler->display->display_options['fields']['continent']['table'] = 'countries_country';
-  $handler->display->display_options['fields']['continent']['field'] = 'continent';
-  $handler->display->display_options['fields']['continent']['relationship'] = 'field_client_country_iso2';
-  $handler->display->display_options['fields']['continent']['label'] = 'Region';
-  $handler->display->display_options['fields']['continent']['continent_code'] = 0;
   /* Field: Content: First name */
   $handler->display->display_options['fields']['field_client_poc1_first_name']['id'] = 'field_client_poc1_first_name';
   $handler->display->display_options['fields']['field_client_poc1_first_name']['table'] = 'field_data_field_client_poc1_first_name';

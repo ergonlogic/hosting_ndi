@@ -384,6 +384,39 @@ function hosting_ndi_inventory_field_default_field_bases() {
     'type' => 'text',
   );
 
+  // Exported field_base: 'field_ndi_region'.
+  $field_bases['field_ndi_region'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_ndi_region',
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        'LAC' => 'LAC',
+        'SEA' => 'SEA',
+        'CEWA' => 'CEWA',
+        'MENA' => 'MENA',
+        'CEE' => 'CEE',
+        'Eurasia' => 'Eurasia',
+        'Asia' => 'Asia',
+        'Global' => 'Global',
+        'DC' => 'DC',
+        'N/A' => 'N/A',
+      ),
+      'allowed_values_function' => '',
+    ),
+    'translatable' => 0,
+    'type' => 'list_text',
+  );
+
   // Exported field_base: 'field_nditech_manager_email'.
   $field_bases['field_nditech_manager_email'] = array(
     'active' => 1,

@@ -21,7 +21,7 @@ function hosting_ndi_inventory_field_group_info() {
   $field_group->parent_name = 'group_inventory';
   $field_group->data = array(
     'label' => 'Client POC 1',
-    'weight' => '8',
+    'weight' => '10',
     'children' => array(
       0 => 'field_client_poc1_first_name',
       1 => 'field_client_poc1_last_name',
@@ -52,7 +52,7 @@ function hosting_ndi_inventory_field_group_info() {
   $field_group->parent_name = 'group_inventory';
   $field_group->data = array(
     'label' => 'Client POC 2',
-    'weight' => '9',
+    'weight' => '11',
     'children' => array(
       0 => 'field_client_poc2_first_name',
       1 => 'field_client_poc2_last_name',
@@ -87,13 +87,15 @@ function hosting_ndi_inventory_field_group_info() {
     'children' => array(
       0 => 'field_ndi_environment',
       1 => 'field_inventory_enabled',
-      2 => 'field_client_type',
-      3 => 'field_client_organization_team',
-      4 => 'field_client_country',
-      5 => 'group_client_poc1',
-      6 => 'group_client_poc2',
-      7 => 'group_ndi_poc',
-      8 => 'group_nditech_poc',
+      2 => 'field_client_organization_team',
+      3 => 'field_client_country',
+      4 => 'field_client_type',
+      5 => 'field_site_status',
+      6 => 'field_ndi_region',
+      7 => 'group_client_poc1',
+      8 => 'group_client_poc2',
+      9 => 'group_ndi_poc',
+      10 => 'group_nditech_poc',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -119,7 +121,7 @@ function hosting_ndi_inventory_field_group_info() {
   $field_group->parent_name = 'group_inventory';
   $field_group->data = array(
     'label' => 'NDI POC',
-    'weight' => '10',
+    'weight' => '12',
     'children' => array(
       0 => 'field_ndi_poc_first_name',
       1 => 'field_ndi_poc_last_name',
@@ -150,7 +152,7 @@ function hosting_ndi_inventory_field_group_info() {
   $field_group->parent_name = 'group_inventory';
   $field_group->data = array(
     'label' => 'NDItech POC',
-    'weight' => '11',
+    'weight' => '13',
     'children' => array(
       0 => 'field_nditech_poc_first_name',
       1 => 'field_nditech_poc_last_name',
