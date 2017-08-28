@@ -231,17 +231,22 @@ function hosting_ndi_inventory_field_default_field_bases() {
     'entity_types' => array(),
     'field_name' => 'field_client_type',
     'indexes' => array(
-      'format' => array(
-        0 => 'format',
+      'value' => array(
+        0 => 'value',
       ),
     ),
     'locked' => 0,
-    'module' => 'text',
+    'module' => 'list',
     'settings' => array(
-      'max_length' => 255,
+      'allowed_values' => array(
+        'NDI Partner' => 'NDI Partner',
+        'NDI Team/Office' => 'NDI Team/Office',
+        'Non Partner' => 'Non Partner',
+      ),
+      'allowed_values_function' => '',
     ),
     'translatable' => 0,
-    'type' => 'text',
+    'type' => 'list_text',
   );
 
   // Exported field_base: 'field_inventory_enabled'.
@@ -440,6 +445,32 @@ function hosting_ndi_inventory_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'text',
+  );
+
+  // Exported field_base: 'field_site_status'.
+  $field_bases['field_site_status'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_site_status',
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        'Active' => 'Active',
+        'Inactive' => 'Inactive',
+        'Needs Followup' => 'Needs Followup',
+      ),
+      'allowed_values_function' => '',
+    ),
+    'translatable' => 0,
+    'type' => 'list_text',
   );
 
   return $field_bases;

@@ -43,7 +43,7 @@ function hosting_ndi_inventory_field_default_field_instances() {
       'module' => 'countries',
       'settings' => array(),
       'type' => 'countries_continent',
-      'weight' => 5,
+      'weight' => 6,
     ),
   );
 
@@ -83,7 +83,7 @@ function hosting_ndi_inventory_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 4,
+      'weight' => 5,
     ),
   );
 
@@ -123,7 +123,7 @@ function hosting_ndi_inventory_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 8,
+      'weight' => 9,
     ),
   );
 
@@ -163,7 +163,7 @@ function hosting_ndi_inventory_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 6,
+      'weight' => 7,
     ),
   );
 
@@ -203,7 +203,7 @@ function hosting_ndi_inventory_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 7,
+      'weight' => 8,
     ),
   );
 
@@ -243,7 +243,7 @@ function hosting_ndi_inventory_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 9,
+      'weight' => 10,
     ),
   );
 
@@ -283,7 +283,7 @@ function hosting_ndi_inventory_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 12,
+      'weight' => 13,
     ),
   );
 
@@ -322,7 +322,7 @@ function hosting_ndi_inventory_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 10,
+      'weight' => 11,
     ),
   );
 
@@ -362,7 +362,7 @@ function hosting_ndi_inventory_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 11,
+      'weight' => 12,
     ),
   );
 
@@ -402,7 +402,7 @@ function hosting_ndi_inventory_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 13,
+      'weight' => 14,
     ),
   );
 
@@ -414,11 +414,11 @@ function hosting_ndi_inventory_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'inline',
-        'module' => 'text',
+        'label' => 'above',
+        'module' => 'list',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 5,
+        'type' => 'list_default',
+        'weight' => 16,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -432,17 +432,14 @@ function hosting_ndi_inventory_field_default_field_instances() {
     'label' => 'Client type',
     'required' => 0,
     'settings' => array(
-      'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => 3,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 4,
     ),
   );
 
@@ -528,7 +525,7 @@ This will affect the site\'s support status, and show up in the consolidated sit
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 2,
+      'weight' => 3,
     ),
   );
 
@@ -568,7 +565,7 @@ This will affect the site\'s support status, and show up in the consolidated sit
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 16,
+      'weight' => 17,
     ),
   );
 
@@ -608,7 +605,7 @@ This will affect the site\'s support status, and show up in the consolidated sit
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 14,
+      'weight' => 15,
     ),
   );
 
@@ -648,7 +645,7 @@ This will affect the site\'s support status, and show up in the consolidated sit
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 15,
+      'weight' => 16,
     ),
   );
 
@@ -688,7 +685,7 @@ This will affect the site\'s support status, and show up in the consolidated sit
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 17,
+      'weight' => 18,
     ),
   );
 
@@ -728,7 +725,7 @@ This will affect the site\'s support status, and show up in the consolidated sit
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 20,
+      'weight' => 21,
     ),
   );
 
@@ -768,7 +765,7 @@ This will affect the site\'s support status, and show up in the consolidated sit
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 18,
+      'weight' => 19,
     ),
   );
 
@@ -808,7 +805,44 @@ This will affect the site\'s support status, and show up in the consolidated sit
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 19,
+      'weight' => 20,
+    ),
+  );
+
+  // Exported field_instance: 'node-site-field_site_status'.
+  $field_instances['node-site-field_site_status'] = array(
+    'bundle' => 'site',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 17,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_site_status',
+    'label' => 'Site status',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 2,
     ),
   );
 
@@ -825,6 +859,7 @@ This will affect the site\'s support status, and show up in the consolidated sit
   t('Last name');
   t('Manager email');
   t('Phone');
+  t('Site status');
   t('Specify the environment for this site.
 
 This will affect the site\'s support status, and show up in the consolidated site inventory.');

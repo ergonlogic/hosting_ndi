@@ -117,7 +117,13 @@ function hosting_ndi_inventory_views_default_views() {
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = 'Site Name';
+  $handler->display->display_options['fields']['title']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['path'] = '/node/[nid]/inventory';
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  /* Field: Content: Site status */
+  $handler->display->display_options['fields']['field_site_status']['id'] = 'field_site_status';
+  $handler->display->display_options['fields']['field_site_status']['table'] = 'field_data_field_site_status';
+  $handler->display->display_options['fields']['field_site_status']['field'] = 'field_site_status';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title_2']['id'] = 'title_2';
   $handler->display->display_options['fields']['title_2']['table'] = 'node';
@@ -309,114 +315,6 @@ function hosting_ndi_inventory_views_default_views() {
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['content'] = 'No sites have been created. <a href="/node/add/site">Click here</a> to add one.';
   $handler->display->display_options['empty']['area']['format'] = '1';
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Nid */
-  $handler->display->display_options['fields']['nid']['id'] = 'nid';
-  $handler->display->display_options['fields']['nid']['table'] = 'node';
-  $handler->display->display_options['fields']['nid']['field'] = 'nid';
-  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = 'Site Name';
-  $handler->display->display_options['fields']['title']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['title']['alter']['path'] = '/node/[nid]/inventory';
-  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title_2']['id'] = 'title_2';
-  $handler->display->display_options['fields']['title_2']['table'] = 'node';
-  $handler->display->display_options['fields']['title_2']['field'] = 'title';
-  $handler->display->display_options['fields']['title_2']['relationship'] = 'platform';
-  $handler->display->display_options['fields']['title_2']['label'] = 'Platform';
-  $handler->display->display_options['fields']['title_2']['alter']['max_length'] = '20';
-  $handler->display->display_options['fields']['title_2']['link_to_node'] = FALSE;
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title_3']['id'] = 'title_3';
-  $handler->display->display_options['fields']['title_3']['table'] = 'node';
-  $handler->display->display_options['fields']['title_3']['field'] = 'title';
-  $handler->display->display_options['fields']['title_3']['relationship'] = 'profile';
-  $handler->display->display_options['fields']['title_3']['label'] = 'Install Profile';
-  $handler->display->display_options['fields']['title_3']['link_to_node'] = FALSE;
-  /* Field: Content: Client type */
-  $handler->display->display_options['fields']['field_client_type']['id'] = 'field_client_type';
-  $handler->display->display_options['fields']['field_client_type']['table'] = 'field_data_field_client_type';
-  $handler->display->display_options['fields']['field_client_type']['field'] = 'field_client_type';
-  /* Field: Content: Client (Organization/Team) */
-  $handler->display->display_options['fields']['field_client_organization_team']['id'] = 'field_client_organization_team';
-  $handler->display->display_options['fields']['field_client_organization_team']['table'] = 'field_data_field_client_organization_team';
-  $handler->display->display_options['fields']['field_client_organization_team']['field'] = 'field_client_organization_team';
-  /* Field: Content: Country */
-  $handler->display->display_options['fields']['field_client_country']['id'] = 'field_client_country';
-  $handler->display->display_options['fields']['field_client_country']['table'] = 'field_data_field_client_country';
-  $handler->display->display_options['fields']['field_client_country']['field'] = 'field_client_country';
-  /* Field: Countries: Continent */
-  $handler->display->display_options['fields']['continent']['id'] = 'continent';
-  $handler->display->display_options['fields']['continent']['table'] = 'countries_country';
-  $handler->display->display_options['fields']['continent']['field'] = 'continent';
-  $handler->display->display_options['fields']['continent']['relationship'] = 'field_client_country_iso2';
-  $handler->display->display_options['fields']['continent']['label'] = 'Region';
-  $handler->display->display_options['fields']['continent']['continent_code'] = 0;
-  /* Field: Content: First name */
-  $handler->display->display_options['fields']['field_client_poc1_first_name']['id'] = 'field_client_poc1_first_name';
-  $handler->display->display_options['fields']['field_client_poc1_first_name']['table'] = 'field_data_field_client_poc1_first_name';
-  $handler->display->display_options['fields']['field_client_poc1_first_name']['field'] = 'field_client_poc1_first_name';
-  /* Field: Content: Last name */
-  $handler->display->display_options['fields']['field_client_poc1_last_name']['id'] = 'field_client_poc1_last_name';
-  $handler->display->display_options['fields']['field_client_poc1_last_name']['table'] = 'field_data_field_client_poc1_last_name';
-  $handler->display->display_options['fields']['field_client_poc1_last_name']['field'] = 'field_client_poc1_last_name';
-  /* Field: Content: Phone */
-  $handler->display->display_options['fields']['field_client_poc1_phone']['id'] = 'field_client_poc1_phone';
-  $handler->display->display_options['fields']['field_client_poc1_phone']['table'] = 'field_data_field_client_poc1_phone';
-  $handler->display->display_options['fields']['field_client_poc1_phone']['field'] = 'field_client_poc1_phone';
-  /* Field: Content: Email */
-  $handler->display->display_options['fields']['field_client_poc1_email']['id'] = 'field_client_poc1_email';
-  $handler->display->display_options['fields']['field_client_poc1_email']['table'] = 'field_data_field_client_poc1_email';
-  $handler->display->display_options['fields']['field_client_poc1_email']['field'] = 'field_client_poc1_email';
-  /* Field: Content: First name */
-  $handler->display->display_options['fields']['field_client_poc2_first_name']['id'] = 'field_client_poc2_first_name';
-  $handler->display->display_options['fields']['field_client_poc2_first_name']['table'] = 'field_data_field_client_poc2_first_name';
-  $handler->display->display_options['fields']['field_client_poc2_first_name']['field'] = 'field_client_poc2_first_name';
-  /* Field: Content: Last name */
-  $handler->display->display_options['fields']['field_client_poc2_last_name']['id'] = 'field_client_poc2_last_name';
-  $handler->display->display_options['fields']['field_client_poc2_last_name']['table'] = 'field_data_field_client_poc2_last_name';
-  $handler->display->display_options['fields']['field_client_poc2_last_name']['field'] = 'field_client_poc2_last_name';
-  /* Field: Content: Email */
-  $handler->display->display_options['fields']['field_client_poc2_email']['id'] = 'field_client_poc2_email';
-  $handler->display->display_options['fields']['field_client_poc2_email']['table'] = 'field_data_field_client_poc2_email';
-  $handler->display->display_options['fields']['field_client_poc2_email']['field'] = 'field_client_poc2_email';
-  /* Field: Content: Phone */
-  $handler->display->display_options['fields']['field_client_poc2_phone']['id'] = 'field_client_poc2_phone';
-  $handler->display->display_options['fields']['field_client_poc2_phone']['table'] = 'field_data_field_client_poc2_phone';
-  $handler->display->display_options['fields']['field_client_poc2_phone']['field'] = 'field_client_poc2_phone';
-  /* Field: Content: First name */
-  $handler->display->display_options['fields']['field_ndi_poc_first_name']['id'] = 'field_ndi_poc_first_name';
-  $handler->display->display_options['fields']['field_ndi_poc_first_name']['table'] = 'field_data_field_ndi_poc_first_name';
-  $handler->display->display_options['fields']['field_ndi_poc_first_name']['field'] = 'field_ndi_poc_first_name';
-  /* Field: Content: Last name */
-  $handler->display->display_options['fields']['field_ndi_poc_last_name']['id'] = 'field_ndi_poc_last_name';
-  $handler->display->display_options['fields']['field_ndi_poc_last_name']['table'] = 'field_data_field_ndi_poc_last_name';
-  $handler->display->display_options['fields']['field_ndi_poc_last_name']['field'] = 'field_ndi_poc_last_name';
-  /* Field: Content: Phone */
-  $handler->display->display_options['fields']['field_ndi_poc_phone']['id'] = 'field_ndi_poc_phone';
-  $handler->display->display_options['fields']['field_ndi_poc_phone']['table'] = 'field_data_field_ndi_poc_phone';
-  $handler->display->display_options['fields']['field_ndi_poc_phone']['field'] = 'field_ndi_poc_phone';
-  /* Field: Content: Email */
-  $handler->display->display_options['fields']['field_ndi_poc_email']['id'] = 'field_ndi_poc_email';
-  $handler->display->display_options['fields']['field_ndi_poc_email']['table'] = 'field_data_field_ndi_poc_email';
-  $handler->display->display_options['fields']['field_ndi_poc_email']['field'] = 'field_ndi_poc_email';
-  /* Field: Content: First name */
-  $handler->display->display_options['fields']['field_nditech_poc_first_name']['id'] = 'field_nditech_poc_first_name';
-  $handler->display->display_options['fields']['field_nditech_poc_first_name']['table'] = 'field_data_field_nditech_poc_first_name';
-  $handler->display->display_options['fields']['field_nditech_poc_first_name']['field'] = 'field_nditech_poc_first_name';
-  /* Field: Content: Last name */
-  $handler->display->display_options['fields']['field_nditech_poc_last_name']['id'] = 'field_nditech_poc_last_name';
-  $handler->display->display_options['fields']['field_nditech_poc_last_name']['table'] = 'field_data_field_nditech_poc_last_name';
-  $handler->display->display_options['fields']['field_nditech_poc_last_name']['field'] = 'field_nditech_poc_last_name';
-  /* Field: Content: Manager email */
-  $handler->display->display_options['fields']['field_nditech_manager_email']['id'] = 'field_nditech_manager_email';
-  $handler->display->display_options['fields']['field_nditech_manager_email']['table'] = 'field_data_field_nditech_manager_email';
-  $handler->display->display_options['fields']['field_nditech_manager_email']['field'] = 'field_nditech_manager_email';
   $handler->display->display_options['path'] = 'hosting/inventory/list';
   $handler->display->display_options['menu']['type'] = 'default tab';
   $handler->display->display_options['menu']['title'] = 'Inventory';
@@ -441,107 +339,6 @@ function hosting_ndi_inventory_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'views_data_export_csv';
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = 'Site Name';
-  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title_2']['id'] = 'title_2';
-  $handler->display->display_options['fields']['title_2']['table'] = 'node';
-  $handler->display->display_options['fields']['title_2']['field'] = 'title';
-  $handler->display->display_options['fields']['title_2']['relationship'] = 'platform';
-  $handler->display->display_options['fields']['title_2']['label'] = 'Platform';
-  $handler->display->display_options['fields']['title_2']['alter']['max_length'] = '20';
-  $handler->display->display_options['fields']['title_2']['link_to_node'] = FALSE;
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title_3']['id'] = 'title_3';
-  $handler->display->display_options['fields']['title_3']['table'] = 'node';
-  $handler->display->display_options['fields']['title_3']['field'] = 'title';
-  $handler->display->display_options['fields']['title_3']['relationship'] = 'profile';
-  $handler->display->display_options['fields']['title_3']['label'] = 'Install Profile';
-  $handler->display->display_options['fields']['title_3']['link_to_node'] = FALSE;
-  /* Field: Content: Client type */
-  $handler->display->display_options['fields']['field_client_type']['id'] = 'field_client_type';
-  $handler->display->display_options['fields']['field_client_type']['table'] = 'field_data_field_client_type';
-  $handler->display->display_options['fields']['field_client_type']['field'] = 'field_client_type';
-  /* Field: Content: Client (Organization/Team) */
-  $handler->display->display_options['fields']['field_client_organization_team']['id'] = 'field_client_organization_team';
-  $handler->display->display_options['fields']['field_client_organization_team']['table'] = 'field_data_field_client_organization_team';
-  $handler->display->display_options['fields']['field_client_organization_team']['field'] = 'field_client_organization_team';
-  /* Field: Content: Country */
-  $handler->display->display_options['fields']['field_client_country']['id'] = 'field_client_country';
-  $handler->display->display_options['fields']['field_client_country']['table'] = 'field_data_field_client_country';
-  $handler->display->display_options['fields']['field_client_country']['field'] = 'field_client_country';
-  /* Field: Countries: Continent */
-  $handler->display->display_options['fields']['continent']['id'] = 'continent';
-  $handler->display->display_options['fields']['continent']['table'] = 'countries_country';
-  $handler->display->display_options['fields']['continent']['field'] = 'continent';
-  $handler->display->display_options['fields']['continent']['relationship'] = 'field_client_country_iso2';
-  $handler->display->display_options['fields']['continent']['label'] = 'Region';
-  $handler->display->display_options['fields']['continent']['continent_code'] = 0;
-  /* Field: Content: First name */
-  $handler->display->display_options['fields']['field_client_poc1_first_name']['id'] = 'field_client_poc1_first_name';
-  $handler->display->display_options['fields']['field_client_poc1_first_name']['table'] = 'field_data_field_client_poc1_first_name';
-  $handler->display->display_options['fields']['field_client_poc1_first_name']['field'] = 'field_client_poc1_first_name';
-  /* Field: Content: Last name */
-  $handler->display->display_options['fields']['field_client_poc1_last_name']['id'] = 'field_client_poc1_last_name';
-  $handler->display->display_options['fields']['field_client_poc1_last_name']['table'] = 'field_data_field_client_poc1_last_name';
-  $handler->display->display_options['fields']['field_client_poc1_last_name']['field'] = 'field_client_poc1_last_name';
-  /* Field: Content: Phone */
-  $handler->display->display_options['fields']['field_client_poc1_phone']['id'] = 'field_client_poc1_phone';
-  $handler->display->display_options['fields']['field_client_poc1_phone']['table'] = 'field_data_field_client_poc1_phone';
-  $handler->display->display_options['fields']['field_client_poc1_phone']['field'] = 'field_client_poc1_phone';
-  /* Field: Content: Email */
-  $handler->display->display_options['fields']['field_client_poc1_email']['id'] = 'field_client_poc1_email';
-  $handler->display->display_options['fields']['field_client_poc1_email']['table'] = 'field_data_field_client_poc1_email';
-  $handler->display->display_options['fields']['field_client_poc1_email']['field'] = 'field_client_poc1_email';
-  /* Field: Content: First name */
-  $handler->display->display_options['fields']['field_client_poc2_first_name']['id'] = 'field_client_poc2_first_name';
-  $handler->display->display_options['fields']['field_client_poc2_first_name']['table'] = 'field_data_field_client_poc2_first_name';
-  $handler->display->display_options['fields']['field_client_poc2_first_name']['field'] = 'field_client_poc2_first_name';
-  /* Field: Content: Last name */
-  $handler->display->display_options['fields']['field_client_poc2_last_name']['id'] = 'field_client_poc2_last_name';
-  $handler->display->display_options['fields']['field_client_poc2_last_name']['table'] = 'field_data_field_client_poc2_last_name';
-  $handler->display->display_options['fields']['field_client_poc2_last_name']['field'] = 'field_client_poc2_last_name';
-  /* Field: Content: Email */
-  $handler->display->display_options['fields']['field_client_poc2_email']['id'] = 'field_client_poc2_email';
-  $handler->display->display_options['fields']['field_client_poc2_email']['table'] = 'field_data_field_client_poc2_email';
-  $handler->display->display_options['fields']['field_client_poc2_email']['field'] = 'field_client_poc2_email';
-  /* Field: Content: Phone */
-  $handler->display->display_options['fields']['field_client_poc2_phone']['id'] = 'field_client_poc2_phone';
-  $handler->display->display_options['fields']['field_client_poc2_phone']['table'] = 'field_data_field_client_poc2_phone';
-  $handler->display->display_options['fields']['field_client_poc2_phone']['field'] = 'field_client_poc2_phone';
-  /* Field: Content: First name */
-  $handler->display->display_options['fields']['field_ndi_poc_first_name']['id'] = 'field_ndi_poc_first_name';
-  $handler->display->display_options['fields']['field_ndi_poc_first_name']['table'] = 'field_data_field_ndi_poc_first_name';
-  $handler->display->display_options['fields']['field_ndi_poc_first_name']['field'] = 'field_ndi_poc_first_name';
-  /* Field: Content: Last name */
-  $handler->display->display_options['fields']['field_ndi_poc_last_name']['id'] = 'field_ndi_poc_last_name';
-  $handler->display->display_options['fields']['field_ndi_poc_last_name']['table'] = 'field_data_field_ndi_poc_last_name';
-  $handler->display->display_options['fields']['field_ndi_poc_last_name']['field'] = 'field_ndi_poc_last_name';
-  /* Field: Content: Phone */
-  $handler->display->display_options['fields']['field_ndi_poc_phone']['id'] = 'field_ndi_poc_phone';
-  $handler->display->display_options['fields']['field_ndi_poc_phone']['table'] = 'field_data_field_ndi_poc_phone';
-  $handler->display->display_options['fields']['field_ndi_poc_phone']['field'] = 'field_ndi_poc_phone';
-  /* Field: Content: Email */
-  $handler->display->display_options['fields']['field_ndi_poc_email']['id'] = 'field_ndi_poc_email';
-  $handler->display->display_options['fields']['field_ndi_poc_email']['table'] = 'field_data_field_ndi_poc_email';
-  $handler->display->display_options['fields']['field_ndi_poc_email']['field'] = 'field_ndi_poc_email';
-  /* Field: Content: First name */
-  $handler->display->display_options['fields']['field_nditech_poc_first_name']['id'] = 'field_nditech_poc_first_name';
-  $handler->display->display_options['fields']['field_nditech_poc_first_name']['table'] = 'field_data_field_nditech_poc_first_name';
-  $handler->display->display_options['fields']['field_nditech_poc_first_name']['field'] = 'field_nditech_poc_first_name';
-  /* Field: Content: Last name */
-  $handler->display->display_options['fields']['field_nditech_poc_last_name']['id'] = 'field_nditech_poc_last_name';
-  $handler->display->display_options['fields']['field_nditech_poc_last_name']['table'] = 'field_data_field_nditech_poc_last_name';
-  $handler->display->display_options['fields']['field_nditech_poc_last_name']['field'] = 'field_nditech_poc_last_name';
-  /* Field: Content: Manager email */
-  $handler->display->display_options['fields']['field_nditech_manager_email']['id'] = 'field_nditech_manager_email';
-  $handler->display->display_options['fields']['field_nditech_manager_email']['table'] = 'field_data_field_nditech_manager_email';
-  $handler->display->display_options['fields']['field_nditech_manager_email']['field'] = 'field_nditech_manager_email';
   $handler->display->display_options['path'] = 'hosting/ndi/inventory/csv';
   $handler->display->display_options['displays'] = array(
     'page_sites' => 'page_sites',
