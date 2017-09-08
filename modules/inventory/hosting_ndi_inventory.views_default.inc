@@ -336,7 +336,7 @@ function hosting_ndi_inventory_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'views_data_export_csv';
-  $handler->display->display_options['path'] = 'hosting/ndi/inventory/csv';
+  $handler->display->display_options['path'] = 'hosting/ndi/inventory/inventory.csv';
   $handler->display->display_options['displays'] = array(
     'page_sites' => 'page_sites',
     'default' => 0,
