@@ -481,10 +481,11 @@ function hosting_ndi_inventory_views_default_views() {
   $handler->display->display_options['filters']['status_1']['value'] = '1';
   /* Filter criterion: Content: Inventory enabled (field_inventory_enabled) */
   $handler->display->display_options['filters']['field_inventory_enabled_value']['id'] = 'field_inventory_enabled_value';
+  $handler->display->display_options['filters']['field_inventory_enabled_value']['operator'] = 'not';
   $handler->display->display_options['filters']['field_inventory_enabled_value']['table'] = 'field_data_field_inventory_enabled';
   $handler->display->display_options['filters']['field_inventory_enabled_value']['field'] = 'field_inventory_enabled_value';
   $handler->display->display_options['filters']['field_inventory_enabled_value']['value'] = array(
-    0 => '0',
+    1 => '1',
   );
 
   /* Display: Site inventory */
