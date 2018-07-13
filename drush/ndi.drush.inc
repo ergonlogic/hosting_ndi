@@ -8,6 +8,19 @@ function ndi_drush_init() {
 }
 
 /**
+ * Implements hook_apache_vhost_config().
+ */
+function ndi_provision_apache_vhost_config($uri, $data) {
+return "
+RewriteEngine on
+
+# https://issues.civicrm.org/jira/browse/CRM-16266
+RewriteRule ^/[a-z]{2}/vendor/(.*)$ /vendor/$1 [QSA,L]
+RewriteRule ^/[a-z]{2}//vendor/(.*)$ /vendor/$1 [QSA,L]
+";
+}
+
+/**
  * Register our directory as a place to find provision classes.
  */
 function ndi_provision_register_autoload() {
